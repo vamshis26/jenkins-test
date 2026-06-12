@@ -3,40 +3,24 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
+        stage('Debug Workspace') {
             steps {
-                checkout scm
+                sh 'pwd'
+                sh 'ls -la'
             }
         }
 
-        stage('Check Node & npm') {
+        stage('Check Node') {
             steps {
                 sh 'node -v'
                 sh 'npm -v'
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
-
-        stage('Run JavaScript File') {
+        stage('Run JS') {
             steps {
                 sh 'node test.js'
             }
-        }
-
-    }
-
-    post {
-        success {
-            echo 'Build completed successfully 🎉'
-        }
-
-        failure {
-            echo 'Build failed ❌'
         }
     }
 }
