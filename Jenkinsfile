@@ -2,12 +2,41 @@ pipeline {
     agent any
 
     stages {
-        stage('Check Node') {
+
+        stage('Checkout Code') {
             steps {
-                sh 'which node || echo "Node not found"'
-                sh 'node -v || echo "Node is not installed"'
-                sh 'npm -v || echo "npm is not installed"'
+                checkout scm
             }
+        }
+
+        stage('Check Node & npm') {
+            steps {
+                sh 'node -v'
+                sh 'npm -v'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Run JavaScript File') {
+            steps {
+                sh 'node test.js'
+            }
+        }
+
+    }
+
+    post {
+        success {
+            echo 'Build completed successfully 🎉'
+        }
+
+        failure {
+            echo 'Build failed ❌'
         }
     }
 }
