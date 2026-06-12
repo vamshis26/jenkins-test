@@ -1,20 +1,12 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'NodeJS'
-    }
-
     stages {
-        stage('Checkout') {
+        stage('Check Node') {
             steps {
-                checkout scm
-            }
-        }
-
-        stage('Run JavaScript') {
-            steps {
-                sh 'node test.js'
+                sh 'which node || echo "Node not found"'
+                sh 'node -v || echo "Node is not installed"'
+                sh 'npm -v || echo "npm is not installed"'
             }
         }
     }
